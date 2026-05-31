@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useState } from "react";
 
 function Catalog() {
@@ -43,6 +44,18 @@ function Catalog() {
 
     return (
         <div className="catalog-container">
+
+            <nav className="navbar">
+                <div className="logo">
+                    <h2>EcoMarket</h2>
+                </div>
+
+                <div className="nav-links">
+                    <Link to="/products">Gestionar Productos</Link>
+                    <Link to="/login">Iniciar Sesión</Link>
+                    <Link to="/register">Registrarse</Link>
+                </div>
+            </nav>
 
             <h1>Catálogo de Productos</h1>
 

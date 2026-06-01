@@ -53,6 +53,7 @@ function Catalog() {
                 <div className="nav-links">
                     <Link to="/products">Gestionar Productos</Link>
                     <Link to="/login">Iniciar Sesión</Link>
+                    <Link to="/admin">Administrador</Link>
                 </div>
             </nav>
 

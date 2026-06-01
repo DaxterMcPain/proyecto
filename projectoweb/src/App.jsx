@@ -4,6 +4,7 @@ import Catalog from "./pages/Catalog";
 import Login from "./pages/Login";
 import ProductForm from "./pages/ProductForm";
 import Perfil from "./pages/Perfil";
+import Admin from "./pages/Admin";
 
 function App() {
     return (
@@ -12,6 +13,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/products" element={<ProductForm />} />
             <Route path="/perfil" element={<Perfil />} />
+            <Route path="/admin" element={<Admin />} />
         </Routes>
     );
 }

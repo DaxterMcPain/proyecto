@@ -144,3 +144,13 @@ textarea {
         .nav-links a:hover {
             text-decoration: underline;
         }
+
+.cart-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+    .cart-list .product-card {
+        width: 100%;
+    }

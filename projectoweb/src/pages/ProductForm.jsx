@@ -55,10 +55,8 @@ function ProductForm() {
 
                 </form>
 
-                <Link to="/">
-                    <button className="back">
-                        Volver
-                    </button>
+                <Link to="/admin">
+                    <button>Volver</button>
                 </Link>
 
             </div>

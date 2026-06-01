@@ -27,6 +27,18 @@ function Catalog() {
     const [search, setSearch] = useState("");
     const [category, setCategory] = useState("");
     const [maxPrice, setMaxPrice] = useState("");
+    const addToCart = (product) => {
+
+        const currentCart =
+            JSON.parse(localStorage.getItem("cart")) || [];
+
+        currentCart.push(product);
+
+        localStorage.setItem(
+            "cart",
+            JSON.stringify(currentCart)
+        );
+    };
 
     const filteredProducts = productsData.filter((product) => {
 
@@ -51,7 +63,7 @@ function Catalog() {
                 </div>
 
                 <div className="nav-links">
-                    <Link to="/products">Gestionar Productos</Link>
+                    <Link to="/cart">Carrito</Link>
                     <Link to="/login">Iniciar Sesión</Link>
                     <Link to="/admin">Administrador</Link>
                 </div>
@@ -99,7 +111,9 @@ function Catalog() {
 
                         <p>S/ {product.price}</p>
 
-                        <button>Ver Producto</button>
+                        <button onClick={() => addToCart(product)}>
+                            Agregar
+                        </button>
 
                     </div>
 

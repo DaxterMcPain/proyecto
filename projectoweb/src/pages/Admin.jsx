@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 function Admin() {
     const [email, setEmail] = useState("");
@@ -28,8 +29,12 @@ function Admin() {
 
                     <p>Bienvenido Administrador</p>
 
+                    <Link to="/products">
+                        <button>Gestionar Productos</button>
+                    </Link>
+
                     <button>Gestionar Usuarios</button>
-                    <button>Gestionar Productos</button>
+
                     <button>Ver Reportes</button>
                 </div>
             </div>
@@ -60,6 +65,10 @@ function Admin() {
                     <button type="submit">
                         Ingresar
                     </button>
+
+                    <Link to="/">
+                        <button>Volver</button>
+                    </Link>
 
                     {error && (
                         <p style={{ color: "red" }}>

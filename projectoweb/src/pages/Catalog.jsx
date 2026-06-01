@@ -3,7 +3,7 @@ import { useState } from "react";
 
 function Catalog() {
 
-    const productsData = [
+    const defaultProducts = [
         {
             id: 1,
             name: "Bolsa ecológica",
@@ -15,13 +15,21 @@ function Catalog() {
             name: "Botella reutilizable",
             category: "Hogar",
             price: 25
-        },
-        {
-            id: 3,
-            name: "Cepillo de bambú",
-            category: "Higiene",
-            price: 12
         }
+    ];
+
+    const savedProducts =
+        JSON.parse(localStorage.getItem("products")) || [];
+
+    const productsData = [
+        ...defaultProducts,
+        ...savedProducts
+    ];
+
+    const categories = [
+        ...new Set(
+            productsData.map(product => product.category)
+        )
     ];
 
     const [search, setSearch] = useState("");
@@ -84,10 +92,22 @@ function Catalog() {
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
                 >
-                    <option value="">Todas las categorías</option>
-                    <option value="Accesorios">Accesorios</option>
-                    <option value="Hogar">Hogar</option>
-                    <option value="Higiene">Higiene</option>
+                    <option value="">
+                        Todas las categorías
+                    </option>
+
+                    <option value="Accesorios">
+                        Accesorios
+                    </option>
+
+                    <option value="Hogar">
+                        Hogar
+                    </option>
+
+                    <option value="Higiene">
+                        Higiene
+                    </option>
+
                 </select>
 
                 <input
@@ -100,17 +120,11 @@ function Catalog() {
             </div>
 
             <div className="products-grid">
-
                 {filteredProducts.map((product) => (
-
                     <div className="product-card" key={product.id}>
-
                         <h3>{product.name}</h3>
-
                         <p>Categoría: {product.category}</p>
-
                         <p>S/ {product.price}</p>
-
                         <button onClick={() => addToCart(product)}>
                             Agregar
                         </button>

@@ -4,22 +4,37 @@ import { Link } from "react-router-dom";
 function ProductForm() {
 
     const [name, setName] = useState("");
-    const [description, setDescription] = useState("");
+    const [category, setCategory] = useState("");
     const [price, setPrice] = useState("");
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        const product = {
+        const newProduct = {
+            id: Date.now(),
             name,
-            description,
-            price
+            category,
+            price: Number(price)
         };
 
-        console.log(product);
+        const savedProducts =
+            JSON.parse(localStorage.getItem("products")) || [];
+
+        savedProducts.push(newProduct);
+
+        localStorage.setItem(
+            "products",
+            JSON.stringify(savedProducts)
+        );
 
         alert("Producto guardado");
+
+        setName("");
+        setCategory("");
+        setPrice("");
     };
+
+
 
     return (
         <div className="home">
@@ -36,11 +51,27 @@ function ProductForm() {
                         onChange={(e) => setName(e.target.value)}
                     />
 
-                    <textarea
-                        placeholder="Descripción"
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                    />
+                    <select
+                        value={category}
+                        onChange={(e) => setCategory(e.target.value)}
+                    >
+                        <option value="">
+                            Seleccione una categoría
+                        </option>
+
+                        <option value="Accesorios">
+                            Accesorios
+                        </option>
+
+                        <option value="Hogar">
+                            Hogar
+                        </option>
+
+                        <option value="Higiene">
+                            Higiene
+                        </option>
+
+                    </select>
 
                     <input
                         type="number"

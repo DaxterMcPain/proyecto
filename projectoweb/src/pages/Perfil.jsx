@@ -1,7 +1,8 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function Perfil() {
     const location = useLocation();
+    const navigate = useNavigate();
 
     const usuario = location.state;
 
@@ -12,7 +13,24 @@ function Perfil() {
 
                 <p><strong>Nombre:</strong> {usuario?.name}</p>
                 <p><strong>Correo:</strong> {usuario?.email}</p>
-                <p><strong>Contraseña:</strong> {usuario?.password}</p>
+                <p><strong>Contraseña:</strong> ********</p>
+                
+               <button
+                    className="back"
+                    onClick={() => navigate("/")}
+                >
+                    Volver al catálogo
+                </button>
+
+                <button
+                    onClick={() => {
+                        localStorage.removeItem("currentUser");
+                        navigate("/");
+                    }}
+                >
+                    Cerrar Sesión
+                </button> 
+                
             </div>
         </div>
     );

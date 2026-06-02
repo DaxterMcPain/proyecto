@@ -11,6 +11,15 @@ function Login() {
     const handleLogin = (e) => {
         e.preventDefault();
 
+        localStorage.setItem(
+            "currentUser",
+            JSON.stringify({
+                name,
+                email,
+                password
+            })
+        );
+
         navigate("/perfil", {
             state: {
                 name,
@@ -19,7 +28,6 @@ function Login() {
             }
         });
     };
-
     return (
         <div className="home">
             <div className="card">

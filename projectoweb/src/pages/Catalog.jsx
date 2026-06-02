@@ -3,6 +3,10 @@ import { useState } from "react";
 
 function Catalog() {
 
+    const currentUser = JSON.parse(
+    localStorage.getItem("currentUser")
+    );
+
     const defaultProducts = [
         {
             id: 1,
@@ -65,10 +69,23 @@ function Catalog() {
                 </div>
 
                 <div className="nav-links">
-                    <Link to="/cart">Carrito</Link>
-                    <Link to="/login">Iniciar Sesión</Link>
-                    <Link to="/admin">Administrador</Link>
-                </div>
+            <Link to="/cart">Carrito</Link>
+
+            {currentUser ? (
+                <Link
+                    to="/perfil"
+                    state={currentUser}
+                >
+                    Bienvenido {currentUser.name}
+                </Link>
+            ) : (
+                <Link to="/login">
+                    Iniciar Sesión
+                </Link>
+            )}
+
+            <Link to="/admin">Administrador</Link>
+        </div>
             </nav>
 
             <h1>Catálogo de Productos</h1>

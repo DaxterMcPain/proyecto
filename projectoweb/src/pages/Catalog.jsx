@@ -26,12 +26,6 @@ function Catalog() {
         ...savedProducts
     ];
 
-    const categories = [
-        ...new Set(
-            productsData.map(product => product.category)
-        )
-    ];
-
     const [search, setSearch] = useState("");
     const [category, setCategory] = useState("");
     const [maxPrice, setMaxPrice] = useState("");

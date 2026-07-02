@@ -7,31 +7,42 @@ function ProductForm() {
     const [category, setCategory] = useState("");
     const [price, setPrice] = useState("");
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
+        console.log("Entró a handleSubmit");
+
         const newProduct = {
-            id: Date.now(),
             name,
             category,
             price: Number(price)
         };
 
-        const savedProducts =
-            JSON.parse(localStorage.getItem("products")) || [];
+        console.log(newProduct);
 
-        savedProducts.push(newProduct);
+        try {
+            const response = await fetch(
+                "http://localhost:3000/products",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(newProduct)
+                }
+            );
 
-        localStorage.setItem(
-            "products",
-            JSON.stringify(savedProducts)
-        );
+            console.log(response);
 
-        alert("Producto guardado");
+            const data = await response.json();
 
-        setName("");
-        setCategory("");
-        setPrice("");
+            console.log(data);
+
+            alert(data.message);
+
+        } catch (error) {
+            console.log(error);
+        }
     };
 
 

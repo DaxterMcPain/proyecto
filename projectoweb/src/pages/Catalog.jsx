@@ -1,38 +1,52 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
+const defaultProducts = [
+    {
+        id: 1,
+        name: "Bolsa ecológica",
+        category: "Accesorios",
+        price: 15
+    },
+    {
+        id: 2,
+        name: "Botella reutilizable",
+        category: "Hogar",
+        price: 25
+    }
+];
 function Catalog() {
 
     const currentUser = JSON.parse(
     localStorage.getItem("currentUser")
     );
 
-    const defaultProducts = [
-        {
-            id: 1,
-            name: "Bolsa ecológica",
-            category: "Accesorios",
-            price: 15
-        },
-        {
-            id: 2,
-            name: "Botella reutilizable",
-            category: "Hogar",
-            price: 25
-        }
-    ];
-
-    const savedProducts =
-        JSON.parse(localStorage.getItem("products")) || [];
-
-    const productsData = [
-        ...defaultProducts,
-        ...savedProducts
-    ];
-
+    
+    const [productsData, setProductsData] = useState(defaultProducts);
     const [search, setSearch] = useState("");
     const [category, setCategory] = useState("");
     const [maxPrice, setMaxPrice] = useState("");
+
+    useEffect(() => {
+
+        fetch("http://localhost:3000/products")
+            .then((response) => response.json())
+            .then((data) => {
+
+                setProductsData([
+                    ...defaultProducts,
+                    ...data
+                ]);
+
+            })
+            .catch((error) => {
+
+                console.log(error);
+
+            });
+
+    }, []);
+
     const addToCart = (product) => {
 
         const currentCart =

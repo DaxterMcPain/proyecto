@@ -47,17 +47,31 @@ function Catalog() {
 
     }, []);
 
-    const addToCart = (product) => {
+    const addToCart = async (product) => {
 
-        const currentCart =
-            JSON.parse(localStorage.getItem("cart")) || [];
+        try {
 
-        currentCart.push(product);
+            const response = await fetch(
+                "http://localhost:3000/cart",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(product)
+                }
+            );
 
-        localStorage.setItem(
-            "cart",
-            JSON.stringify(currentCart)
-        );
+            const data = await response.json();
+
+            alert(data.message);
+
+        } catch (error) {
+
+            console.log(error);
+
+        }
+
     };
 
     const filteredProducts = productsData.filter((product) => {

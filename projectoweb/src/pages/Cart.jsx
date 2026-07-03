@@ -1,52 +1,113 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 function Cart() {
 const navigate = useNavigate();
 
-    const [cart, setCart] = useState(
-        JSON.parse(localStorage.getItem("cart")) || []
-    );
+    const [cart, setCart] = useState([]);
+
+    useEffect(() => {
+
+        const fetchCart = async () => {
+
+            try {
+
+                const response = await fetch(
+                    "http://localhost:3000/cart"
+                );
+
+                const data = await response.json();
+
+                setCart(data);
+
+            } catch (error) {
+
+                console.log(error);
+
+            }
+
+        };
+
+        fetchCart();
+
+    }, []);
+
+    const loadCart = async () => {
+
+        try {
+
+            const response = await fetch(
+                "http://localhost:3000/cart"
+            );
+
+            const data = await response.json();
+
+            setCart(data);
+
+        } catch (error) {
+
+            console.log(error);
+
+        }
+
+    };
 
     const total = cart.reduce(
     (sum, product) => sum + Number(product.price),
     0
     );
 
-    const removeProduct = (indexToRemove) => {
-        const newCart = cart.filter(
-            (_, index) => index !== indexToRemove
-        );
-        setCart(newCart);
-        localStorage.setItem(
-            "cart",
-            JSON.stringify(newCart)
-        );
+    const removeProduct = async (id) => {
+
+        try {
+
+            await fetch(
+                `http://localhost:3000/cart/${id}`,
+                {
+                    method: "DELETE"
+                }
+            );
+
+            await loadCart();
+
+        } catch (error) {
+
+            console.log(error);
+
+        }
+
     };
 
-    const finishPurchase = () => {
+    const finishPurchase = async () => {
 
-    const purchases =
-        JSON.parse(localStorage.getItem("purchases")) || [];
+        try {
 
-    purchases.push({
-        id: Date.now(),
-        products: cart,
-        total: total,
-        date: new Date().toLocaleDateString()
-    });
+            const response = await fetch(
+                "http://localhost:3000/purchase",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        total
+                    })
+                }
+            );
 
-    localStorage.setItem(
-        "purchases",
-        JSON.stringify(purchases)
-    );
+            const data = await response.json();
 
-    localStorage.removeItem("cart");
+            alert(data.message);
 
-    setCart([]);
+            setCart([]);
 
-    alert("Compra realizada correctamente");
+            navigate("/");
 
-    navigate("/");
+        } catch (error) {
+
+            console.log(error);
+
+        }
+
     };
 
     return (
@@ -57,10 +118,10 @@ const navigate = useNavigate();
             ) : (
 
                 <div className="cart-list">
-                    {cart.map((product, index) => (
+                    {cart.map((product) => (
                         <div
                             className="product-card"
-                            key={index}
+                            key={product.id}
                         >
                             <h3>{product.name}</h3>
                             <p>
@@ -73,7 +134,7 @@ const navigate = useNavigate();
 
                             <button
                                 onClick={() =>
-                                    removeProduct(index)
+                                    removeProduct(product.id)
                                 }
                             >
                                 Eliminar

@@ -10,15 +10,11 @@ function ProductForm() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        console.log("Entró a handleSubmit");
-
         const newProduct = {
             name,
             category,
             price: Number(price)
         };
-
-        console.log(newProduct);
 
         try {
             const response = await fetch(
@@ -32,12 +28,9 @@ function ProductForm() {
                 }
             );
 
-            console.log(response);
-
             const data = await response.json();
 
-            console.log(data);
-
+            
             alert(data.message);
 
         } catch (error) {
